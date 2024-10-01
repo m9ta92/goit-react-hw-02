@@ -1,0 +1,15 @@
+.btns {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.reset_btn_show {
+    display: flex;
+}
+
+.reset_btn_hidden {
+    display: none;
+}
