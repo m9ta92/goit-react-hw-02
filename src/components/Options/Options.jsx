@@ -1,21 +1,15 @@
 import css from './Options.module.css';
 
-const Options = ({
-  onAddGood,
-  onAddNeutral,
-  onAddBad,
-  onReset,
-  totalFeedback,
-}) => {
+const Options = ({ updateFeedback, onReset, totalFeedback }) => {
   let classname = css.reset_btn_hidden;
   if (totalFeedback > 0) {
     classname = css.reset_btn_show;
   }
   return (
     <div className={css.btns}>
-      <button onClick={onAddGood}>Good</button>
-      <button onClick={onAddNeutral}>Neutral</button>
-      <button onClick={onAddBad}>Bad</button>
+      <button onClick={() => updateFeedback('good')}>Good</button>
+      <button onClick={() => updateFeedback('neutral')}>Neutral</button>
+      <button onClick={() => updateFeedback('bad')}>Bad</button>
       <button className={classname} onClick={onReset}>
         Reset
       </button>
