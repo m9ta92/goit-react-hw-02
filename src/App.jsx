@@ -1,49 +1,63 @@
-// import
+// imports
 import { useEffect, useState } from 'react';
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
 import Feedback from './components/Feedback/Feedback';
 import Notification from './components/Notification/Notification';
-// import
 
 const App = () => {
-  const [el, setEl] = useState({
+  // State initialization
+  const [rating, setRating] = useState({
     good: 0,
     neutral: 0,
     bad: 0,
   });
 
+  // Initialization of data from local storage when loading a component
   useEffect(() => {
-    const stringifiedValue = JSON.stringify(el);
-    localStorage.setItem('el', stringifiedValue);
-  }, [el]);
+    const savedRating = localStorage.getItem('ratingValue');
+    if (savedRating) {
+      setRating(JSON.parse(savedRating));
+    }
+    console.log(savedRating);
+  }, []);
 
+  // Saving statistics to local storage every time the data changes
+  useEffect(() => {
+    localStorage.setItem('ratingValue', JSON.stringify(rating));
+  }, [rating]);
+
+  // state handler for each button
   // const onAddGood = () => {
-  //   setEl({ ...el, good: el.good + 1 });
+  //   setRating({ ...rating, good: rating.good + 1 });
   // };
   // const onAddNeutral = () => {
-  //   setEl({ ...el, neutral: el.neutral + 1 });
+  //   setRating({ ...rating, neutral: rating.neutral + 1 });
   // };
   // const onAddBad = () => {
-  //   setEl({ ...el, bad: el.bad + 1 });
+  //   setRating({ ...rating, bad: rating.bad + 1 });
   // };
 
+  // state handler for all buttons
   const updateFeedback = feedbackType => {
-    setEl({ ...el, [feedbackType]: el[feedbackType] + 1 });
+    setRating({ ...rating, [feedbackType]: rating[feedbackType] + 1 });
   };
 
+  // resetting collected feedback
   const onReset = () => {
-    setEl({
+    setRating({
       good: 0,
       neutral: 0,
       bad: 0,
     });
   };
 
-  const totalFeedback = el.good + el.neutral + el.bad;
+  // total number of reviews
+  const totalFeedback = rating.good + rating.neutral + rating.bad;
 
+  // Calculation of the percentage of positive reviews
   const positiveFeedback =
-    totalFeedback !== 0 ? Math.round((el.good / totalFeedback) * 100) : 0;
+    totalFeedback !== 0 ? Math.round((rating.good / totalFeedback) * 100) : 0;
 
   return (
     <>
@@ -55,7 +69,11 @@ const App = () => {
       />
 
       {totalFeedback > 0 ? (
-        <Feedback positiveFeedback={positiveFeedback} el={el} />
+        <Feedback
+          positiveFeedback={positiveFeedback}
+          rating={rating}
+          totalFeedback={totalFeedback}
+        />
       ) : (
         <Notification />
       )}
