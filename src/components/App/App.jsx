@@ -19,7 +19,6 @@ const App = () => {
     if (savedRating) {
       setRating(JSON.parse(savedRating));
     }
-    console.log(savedRating);
   }, []);
 
   // Saving statistics to local storage every time the data changes
